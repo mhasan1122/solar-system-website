@@ -113,9 +113,16 @@ export default function Home() {
 
   const dotPositions = PLANETS.map((p, i) => {
     const pos = ORBIT_POSITIONS[i];
-    const x = W / 2 + pos.rxPct * W * Math.cos(pos.angle);
-    const y = H / 2 + pos.ryPct * W * Math.sin(pos.angle);
-    const sz = pos.sizePct * W;
+    // On small screens the center planet gets visually larger relative to the stage,
+    // so push orbit dots a bit outward and cap their size to avoid overlaps.
+    const isSmall = W < 700;
+    const orbitScale = isSmall ? 1.18 : 1;
+    const sizeScale = isSmall ? 0.78 : 1;
+
+    const x = W / 2 + (pos.rxPct * orbitScale) * W * Math.cos(pos.angle);
+    const y = H / 2 + (pos.ryPct * orbitScale) * W * Math.sin(pos.angle);
+    const szRaw = pos.sizePct * W * sizeScale;
+    const sz = Math.max(10, Math.min(szRaw, isSmall ? 26 : 48));
     const depth = Math.sin(pos.angle);
     const opacity = 0.65 + 0.35 * ((depth + 1) / 2);
     return {
