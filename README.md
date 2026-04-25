@@ -60,7 +60,3 @@ The exported output is generated in `out/`.
 
 - `src/app/`: routes and UI (App Router)
 - `src/data/`: data sources used by the UI
-
-## License
-
-Add a license file (for example, `LICENSE`) if you plan to distribute this project publicly.
